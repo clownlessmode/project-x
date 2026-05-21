@@ -24,6 +24,8 @@ jobs:
 
       - run: bun run build:pages
 
+      - run: touch out/.nojekyll
+
       - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
