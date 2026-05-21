@@ -20,9 +20,8 @@ type MyTarrifPageProps = {
 
 const CARD_DELAY = TITLE_WORD_DELAY * 2 + 0.12;
 const ACTION_DELAY = TITLE_WORD_DELAY * 2 + 0.28;
-const DEV_TAP_RESET_MS = 2000;
-const DEV_TAP_TARGET = 5;
-const isDev = process.env.NODE_ENV === "development";
+const TITLE_TAP_RESET_MS = 2000;
+const TITLE_TAP_TARGET = 5;
 
 export function MyTarrifPage({ data }: MyTarrifPageProps) {
   const isReady = useScreenReady();
@@ -31,8 +30,8 @@ export function MyTarrifPage({ data }: MyTarrifPageProps) {
   const [deviceToDelete, setDeviceToDelete] = useState<DeviceModel | null>(
     null,
   );
-  const devTapCountRef = useRef(0);
-  const devTapTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+  const titleTapCountRef = useRef(0);
+  const titleTapTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined,
   );
 
@@ -50,22 +49,18 @@ export function MyTarrifPage({ data }: MyTarrifPageProps) {
   };
 
   const handleTitleTap = () => {
-    if (!isDev) {
-      return;
-    }
+    clearTimeout(titleTapTimeoutRef.current);
+    titleTapCountRef.current += 1;
 
-    clearTimeout(devTapTimeoutRef.current);
-    devTapCountRef.current += 1;
-
-    if (devTapCountRef.current >= DEV_TAP_TARGET) {
+    if (titleTapCountRef.current >= TITLE_TAP_TARGET) {
       setDevices((current) => [...current, createRandomDevice()]);
-      devTapCountRef.current = 0;
+      titleTapCountRef.current = 0;
       return;
     }
 
-    devTapTimeoutRef.current = setTimeout(() => {
-      devTapCountRef.current = 0;
-    }, DEV_TAP_RESET_MS);
+    titleTapTimeoutRef.current = setTimeout(() => {
+      titleTapCountRef.current = 0;
+    }, TITLE_TAP_RESET_MS);
   };
 
   const handleConfirmDelete = () => {
@@ -82,10 +77,7 @@ export function MyTarrifPage({ data }: MyTarrifPageProps) {
   return (
     <div className="flex h-screen flex-col overflow-hidden">
       <header className="shrink-0 px-4 pt-6 pb-4">
-        <div
-          className={isDev ? "cursor-default" : undefined}
-          onClick={handleTitleTap}
-        >
+        <div className="cursor-default" onClick={handleTitleTap}>
           <AnimatedTitle text="Ваш тариф" />
         </div>
       </header>
