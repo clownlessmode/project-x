@@ -1,11 +1,16 @@
 import { getTarrifById } from "@entities/tarrif/model/get-tarrif-by-id";
 import { PaymentTypeScreen } from "@screens/payment-type";
 import { TARRIFS_MOCK } from "@screens/tarrifs/model/mock";
+import { getTarrifRouteParams } from "@shared/lib/static-params";
 import { notFound } from "next/navigation";
 
 type PageProps = {
   params: Promise<{ tarrif: string }>;
 };
+
+export function generateStaticParams() {
+  return getTarrifRouteParams();
+}
 
 export default async function Page({ params }: PageProps) {
   const { tarrif: tarrifParam } = await params;

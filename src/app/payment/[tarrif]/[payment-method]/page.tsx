@@ -5,11 +5,16 @@ import {
 import { getTarrifById } from "@entities/tarrif/model/get-tarrif-by-id";
 import { PaymentScreen } from "@screens/payment";
 import { TARRIFS_MOCK } from "@screens/tarrifs/model/mock";
+import { getPaymentRouteParams } from "@shared/lib/static-params";
 import { notFound } from "next/navigation";
 
 type PageProps = {
   params: Promise<{ tarrif: string; "payment-method": string }>;
 };
+
+export function generateStaticParams() {
+  return getPaymentRouteParams();
+}
 
 export default async function Page({ params }: PageProps) {
   const { tarrif: tarrifParam, "payment-method": paymentMethodParam } =
