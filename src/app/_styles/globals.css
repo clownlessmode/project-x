@@ -1,0 +1,39 @@
+@keyframes welcome-orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.welcome-orbit-spin {
+  animation: welcome-orbit-spin 18s linear infinite;
+}
+
+.welcome-orbit-spin-reverse {
+  animation: welcome-orbit-spin 18s linear infinite reverse;
+}
+
+@keyframes welcome-orbit-travel {
+  to {
+    offset-distance: 100%;
+  }
+}
+
+.welcome-orbit-travel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  offset-rotate: 0deg;
+  animation: welcome-orbit-travel 18s linear infinite;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
