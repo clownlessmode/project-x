@@ -18,7 +18,7 @@ export const WelcomePage = () => {
   }, []);
 
   return (
-    <div className="flex h-screen flex-col items-center justify-between overflow-hidden px-4 pt-[42px] pb-4">
+    <div className="flex h-screen flex-col items-center justify-between overflow-hidden px-4 pt-[42px] pb-[32px]">
       <div className="flex flex-col gap-[24px]">
         <WelcomeTitle />
         <WelcomeDescription />

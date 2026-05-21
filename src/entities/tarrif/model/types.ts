@@ -16,7 +16,3 @@ export interface TarrifModel extends DefaultEntity {
   prices: readonly TarrifPrice[];
   ribbon?: string;
 }
-
-export type TarrifCardProps = TarrifModel & {
-  onClick?: () => void;
-};

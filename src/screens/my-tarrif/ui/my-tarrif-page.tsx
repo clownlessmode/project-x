@@ -111,7 +111,7 @@ export function MyTarrifPage({ data }: MyTarrifPageProps) {
       </main>
 
       <motion.footer
-        className="shrink-0 px-4 pt-4 pb-4 shadow-[0px_0px_2px_rgba(0,0,0,0.04),0px_-4px_4px_rgba(0,0,0,0.06)]"
+        className="shrink-0 px-4 pt-4 pb-[32px] shadow-[0px_0px_2px_rgba(0,0,0,0.04),0px_-4px_4px_rgba(0,0,0,0.06)]"
         initial={{ y: 120, opacity: 0 }}
         animate={isReady ? { y: 0, opacity: 1 } : { y: 120, opacity: 0 }}
         transition={{

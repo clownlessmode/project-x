@@ -35,7 +35,7 @@ export function AddDeviceSheet({
             role="dialog"
             aria-modal="true"
             aria-label="Добавить устройство"
-            className="fixed inset-x-0 bottom-0 z-50 flex flex-col gap-[22px] rounded-t-[24px] bg-[#131313] px-4 pt-11 pb-[30px]"
+            className="fixed inset-x-0 bottom-0 z-50 flex flex-col gap-[22px] rounded-t-[24px] bg-[#131313] px-4 pt-11 pb-[32px]"
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}

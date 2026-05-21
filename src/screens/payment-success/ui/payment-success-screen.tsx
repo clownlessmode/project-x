@@ -23,7 +23,7 @@ export function PaymentSuccessScreen({ tarrif }: PaymentSuccessScreenProps) {
   const expiryDate = formatTarrifExpiryDate(tarrif.period);
 
   return (
-    <div className="flex h-screen flex-col items-center justify-end overflow-hidden px-4 pt-[42px] pb-4">
+    <div className="flex h-screen flex-col items-center justify-end overflow-hidden px-4 pt-[42px] pb-[32px]">
       <div className="flex w-full shrink-0 flex-col items-center gap-[19px]">
         <SuccessTitle />
         <motion.div
@@ -57,9 +57,9 @@ export function PaymentSuccessScreen({ tarrif }: PaymentSuccessScreenProps) {
           delay: BUTTON_DELAY,
         }}
       >
-        <Link href="/my-tarrif" className="block w-full">
+        <Link href={`/my-tarrif/${tarrif.id}`} className="block w-full">
           <Button className="h-[50px] w-full rounded-[16px] text-xl font-medium">
-            Далее
+            К профилю
           </Button>
         </Link>
       </motion.div>

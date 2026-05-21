@@ -59,7 +59,7 @@ export function PaymentScreen({
         </motion.div>
       </header>
 
-      <div className="flex min-h-0 flex-1 flex-col justify-between px-4 pb-4">
+      <div className="flex min-h-0 flex-1 flex-col justify-between px-4 pb-[32px]">
         <motion.div
           className="flex flex-col gap-4 py-[10px]"
           initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}

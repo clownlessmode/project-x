@@ -12,6 +12,14 @@ function normalizePath(pathname: string) {
 export function getRouteOrder(pathname: string) {
   const normalized = normalizePath(pathname);
 
+  if (/^\/my-tarrif\/[^/]+$/.test(normalized)) {
+    return 5;
+  }
+
+  if (normalized === "/my-tarrif") {
+    return 5;
+  }
+
   if (/^\/payment\/[^/]+\/success$/.test(normalized)) {
     return 4;
   }

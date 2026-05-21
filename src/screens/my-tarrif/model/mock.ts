@@ -14,18 +14,26 @@ export type MyTarrifModel = {
   devices: DeviceModel[];
 };
 
+const DEFAULT_ACCESS: MyTarrifAccess = {
+  configuration: "988387329934",
+  key: "988387329934",
+  link: "988387329934",
+};
+
 const activeTarrif = TARRIFS_MOCK[0];
 
-export const MY_TARRIF_MOCK: MyTarrifModel = {
-  tarrif: {
-    ...activeTarrif,
-    is_active: true,
-    devices_count: 5,
-  },
-  access: {
-    configuration: "988387329934",
-    key: "988387329934",
-    link: "988387329934",
-  },
-  devices: [],
-};
+export function buildMyTarrifData(tarrif: TarrifModel): MyTarrifModel {
+  return {
+    tarrif: {
+      ...tarrif,
+      is_active: true,
+    },
+    access: DEFAULT_ACCESS,
+    devices: [],
+  };
+}
+
+export const MY_TARRIF_MOCK: MyTarrifModel = buildMyTarrifData({
+  ...activeTarrif,
+  devices_count: 5,
+});
