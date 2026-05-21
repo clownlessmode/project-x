@@ -1,5 +1,6 @@
 "use client";
 
+import { updateNavFlow } from "@shared/lib/navigation-flow";
 import { getNavigationDirection } from "@shared/lib/route-order";
 import { AnimatePresence, motion, type Variants } from "motion/react";
 import {
@@ -54,6 +55,7 @@ export function PageAnimatePresence({
   const directionRef = useRef<NavigationDirection>("forward");
 
   if (previousPathRef.current !== pathname) {
+    updateNavFlow(previousPathRef.current, pathname);
     directionRef.current = getNavigationDirection(
       previousPathRef.current,
       pathname,

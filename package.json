@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
+    "@telegram-apps/sdk": "^3.11.8",
+    "@telegram-apps/sdk-react": "^3.3.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.16.0",

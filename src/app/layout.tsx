@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { sfProDisplay } from "@shared/config/fonts";
+import { TelegramMiniAppProvider } from "@shared/providers/telegram-mini-app-provider";
 import { PageAnimatePresence } from "@shared/ui/page-animate-presence";
 import { PreventZoom } from "@shared/ui/prevent-zoom";
 import "./style.css";
@@ -29,7 +30,9 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col overflow-x-hidden touch-manipulation">
         <PreventZoom />
-        <PageAnimatePresence>{children}</PageAnimatePresence>
+        <TelegramMiniAppProvider>
+          <PageAnimatePresence>{children}</PageAnimatePresence>
+        </TelegramMiniAppProvider>
       </body>
     </html>
   );
