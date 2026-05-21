@@ -45,7 +45,7 @@ export function SuccessAnimation({
 
   return (
     <motion.div
-      className="relative shrink-0 overflow-hidden"
+      className="pointer-events-none relative shrink-0 overflow-hidden"
       style={{
         width: SUCCESS_ANIMATION_SIZE,
         height: SUCCESS_ANIMATION_SIZE,

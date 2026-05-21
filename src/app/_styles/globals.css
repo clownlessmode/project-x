@@ -34,6 +34,11 @@
     @apply bg-background text-foreground;
   }
   html {
-    @apply font-sans;
+    @apply font-sans touch-manipulation;
+  }
+  input,
+  textarea,
+  select {
+    font-size: 16px;
   }
 }

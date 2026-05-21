@@ -58,7 +58,7 @@ export function EmailField({ value, onChange }: EmailFieldProps) {
             placeholder={isActive ? undefined : "Email"}
             aria-invalid={showError}
             className={cn(
-              "w-full bg-transparent text-sm tracking-[-0.4px] text-white outline-none placeholder:text-white/40",
+              "w-full bg-transparent text-base tracking-[-0.4px] text-white outline-none placeholder:text-white/40",
               isActive ? "font-medium leading-none" : "leading-[1.2]",
             )}
             autoComplete="email"
