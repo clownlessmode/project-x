@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[42704,["/project-x/_next/static/chunks/0ahtb_bntkn4p.js","/project-x/_next/static/chunks/0g6q-utf2a27x.js","/project-x/_next/static/chunks/0d3shmwh5_nmn.js","/project-x/_next/static/chunks/13t2iovfjrb9p.js","/project-x/_next/static/chunks/06~wyo5-yio_i.js"],"PaymentScreen"]
+3:I[97367,["/project-x/_next/static/chunks/0ahtb_bntkn4p.js","/project-x/_next/static/chunks/0g6q-utf2a27x.js","/project-x/_next/static/chunks/0d3shmwh5_nmn.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"tarrif":{"id":4,"is_active":false,"title":"Best Deal","subtitle":"доступ для 12-ти устройств","period":12,"devices_count":12,"ribbon":"Выгодно","prices":[{"currency":"rub","amount":1910},{"currency":"usdt","amount":27.07},{"currency":"stars","amount":1171}],"created_at":"$D2026-05-21T18:25:44.249Z","updated_at":"$D2026-05-21T18:25:44.249Z"},"paymentMethod":"sbp","amount":1910}],[["$","script","script-0",{"src":"/project-x/_next/static/chunks/13t2iovfjrb9p.js","async":true}],["$","script","script-1",{"src":"/project-x/_next/static/chunks/06~wyo5-yio_i.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"0doClh_nCgXug0w3UOmi9"}
+5:null
