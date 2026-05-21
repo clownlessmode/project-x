@@ -1,4 +1,5 @@
 import type { TarrifPaymentMethod } from "@entities/tarrif/model/types";
+import { TARRIF_STARS_ICON, TARRIF_USDT_ICON } from "@shared/config/assets";
 
 type PaymentCurrencyDisplayProps = {
   amount: number;
@@ -18,7 +19,7 @@ export function PaymentCurrencyDisplay({
       {currency === "usdt" && (
         <span className="inline-flex size-[16px] items-center justify-center overflow-hidden rounded-full bg-transparent">
           <img
-            src="/tarrifs/usdt-icon.png"
+            src={TARRIF_USDT_ICON}
             alt="USDT"
             className="scale-[1.4]"
           />
@@ -26,7 +27,7 @@ export function PaymentCurrencyDisplay({
       )}
       {currency === "stars" && (
         <img
-          src="/tarrifs/stars-icon.png"
+          src={TARRIF_STARS_ICON}
           alt="Stars"
           className="size-[20px]"
         />

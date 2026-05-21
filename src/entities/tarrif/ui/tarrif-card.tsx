@@ -1,3 +1,4 @@
+import { TARRIF_STARS_ICON, TARRIF_USDT_ICON } from "@shared/config/assets";
 import { Badge } from "@shared/ui/badge";
 import Link from "next/link";
 import { buildTarrifLink } from "../model/build-tarrif-link";
@@ -91,14 +92,14 @@ const TarrifPriceItem = ({ amount, currency }: TarrifPriceItemProps) => {
         )}
         {currency === "usdt" && (
           <img
-            src="/tarrifs/usdt-icon.png"
+            src={TARRIF_USDT_ICON}
             alt="USDT"
             className="scale-[1.4]"
           />
         )}
         {currency === "stars" && (
           <img
-            src="/tarrifs/stars-icon.png"
+            src={TARRIF_STARS_ICON}
             alt="Stars"
             className="size-[15px]"
           />
