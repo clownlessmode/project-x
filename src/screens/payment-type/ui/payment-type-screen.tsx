@@ -2,6 +2,7 @@
 
 import {
   buildPaymentMethodLink,
+  isPaymentMethodVisible,
   type PaymentMethodSlug,
 } from "@entities/tarrif/model/payment-method";
 import type { TarrifModel } from "@entities/tarrif/model/types";
@@ -39,7 +40,9 @@ export const PaymentTypeScreen = ({ tarrif }: PaymentTypeScreenProps) => {
         <AnimatedTitle text="Способ оплаты" />
       </header>
       <ul className="flex flex-col gap-3 px-4">
-        {paymentMethods.map(({ slug, component }, index) => (
+        {paymentMethods
+          .filter(({ slug }) => isPaymentMethodVisible(slug))
+          .map(({ slug, component }, index) => (
           <motion.li
             key={slug}
             initial={{ opacity: 0, y: 28, scale: 0.96 }}

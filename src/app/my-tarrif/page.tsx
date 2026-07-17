@@ -1,8 +1,7 @@
-import { MyTarrifPage } from "@screens/my-tarrif";
-import { MY_TARRIF_MOCK } from "@screens/my-tarrif/model/mock";
+import { MyTarrifPageClient } from "@screens/my-tarrif/ui/my-tarrif-page-client";
 
 const Page = () => {
-  return <MyTarrifPage data={MY_TARRIF_MOCK} />;
+  return <MyTarrifPageClient />;
 };
 
 export default Page;

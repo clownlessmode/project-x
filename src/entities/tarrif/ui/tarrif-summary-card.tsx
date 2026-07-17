@@ -18,6 +18,11 @@ export function TarrifSummaryCard({ tarrif }: TarrifSummaryCardProps) {
       <p className="break-words text-sm italic leading-[1.1] text-white/60">
         {tarrif.subtitle}
       </p>
+      {tarrif.description && (
+        <p className="break-words text-sm leading-[1.2] text-white/45">
+          {tarrif.description}
+        </p>
+      )}
     </div>
   );
 }

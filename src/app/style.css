@@ -1,4 +1,1 @@
-@import "./_styles/tailwind.css";
-@import "./_styles/light-theme.css";
-@import "./_styles/dark-theme.css";
-@import "./_styles/globals.css";
+/* Стили подключаются в layout.tsx (без @import — Turbopack dev ломает резолв). */

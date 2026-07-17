@@ -4,6 +4,21 @@ export type PaymentMethodSlug = "sbp" | "usdt" | "stars";
 
 const PAYMENT_METHOD_SLUGS: PaymentMethodSlug[] = ["sbp", "usdt", "stars"];
 
+/** В UI показываем только включённые способы (остальные не удаляем из кода). */
+const PAYMENT_METHODS_VISIBLE: Record<PaymentMethodSlug, boolean> = {
+  sbp: false,
+  usdt: true,
+  stars: false,
+};
+
+export function isPaymentMethodVisible(slug: PaymentMethodSlug) {
+  return PAYMENT_METHODS_VISIBLE[slug];
+}
+
+export function visiblePaymentMethodSlugs(): PaymentMethodSlug[] {
+  return PAYMENT_METHOD_SLUGS.filter(isPaymentMethodVisible);
+}
+
 const PAYMENT_METHOD_LABELS: Record<PaymentMethodSlug, string> = {
   sbp: "СБП",
   usdt: "USDT",

@@ -2,21 +2,22 @@
 
 import type { MyTarrifAccess } from "../model/mock";
 import { AnimatePresence, motion } from "motion/react";
+import QRCode from "react-qr-code";
 import { CopyField } from "./copy-field";
 
 type AddDeviceSheetProps = {
   open: boolean;
   access: MyTarrifAccess;
   onClose: () => void;
-  onCopy: (value: string) => void;
 };
 
 export function AddDeviceSheet({
   open,
   access,
   onClose,
-  onCopy,
 }: AddDeviceSheetProps) {
+  const shareLink = access.link.startsWith("vless://") ? access.link : "";
+
   return (
     <AnimatePresence>
       {open && (
@@ -43,13 +44,25 @@ export function AddDeviceSheet({
           >
             <div className="absolute top-4 left-1/2 h-[3.5px] w-[25px] -translate-x-1/2 rounded-[2.5px] bg-white/18" />
 
-            <CopyField
-              label="Конфигурация"
-              value={access.configuration}
-              onCopy={onCopy}
-            />
-            <CopyField label="Ключ" value={access.key} onCopy={onCopy} />
-            <CopyField label="Ссылка" value={access.link} onCopy={onCopy} />
+            {shareLink ? (
+              <>
+                <div className="mx-auto rounded-[16px] bg-white p-3">
+                  <QRCode
+                    value={shareLink}
+                    size={192}
+                    level="M"
+                    bgColor="#ffffff"
+                    fgColor="#000000"
+                  />
+                </div>
+                <CopyField label="Ключ" value={shareLink} autoCopy />
+              </>
+            ) : (
+              <p className="text-center text-sm text-white/60">
+                Ключ ещё готовится. Подождите несколько секунд и попробуйте
+                снова.
+              </p>
+            )}
           </motion.div>
         </>
       )}

@@ -1,5 +1,3 @@
-import { formatTarrifDevicesSubtitle } from "@entities/tarrif/model/format-devices-subtitle";
-import { formatTarrifExpiryBadge } from "@entities/tarrif/model/format-expiry-date";
 import type { TarrifModel } from "@entities/tarrif/model/types";
 import { Badge } from "@shared/ui/badge";
 import Link from "next/link";
@@ -24,12 +22,15 @@ export function ActiveTarrifCard({
             {tarrif.title}
           </p>
           <p className="break-words text-sm italic leading-[1.1] text-white/60">
-            {formatTarrifDevicesSubtitle(tarrif.devices_count)}
+            {tarrif.subtitle}
           </p>
+          {tarrif.description && (
+            <p className="break-words text-sm leading-[1.2] text-white/45">
+              {tarrif.description}
+            </p>
+          )}
         </div>
-        <Badge className="shrink-0 px-[10px]">
-          {formatTarrifExpiryBadge(tarrif.period)}
-        </Badge>
+        <Badge className="shrink-0 px-[10px]">{tarrif.period} мес</Badge>
       </div>
     </Link>
   );

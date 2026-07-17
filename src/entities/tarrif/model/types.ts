@@ -11,7 +11,7 @@ export interface TarrifModel extends DefaultEntity {
   is_active: boolean;
   title: string;
   subtitle: string;
-  devices_count: number;
+  description?: string;
   period: number;
   prices: readonly TarrifPrice[];
   ribbon?: string;

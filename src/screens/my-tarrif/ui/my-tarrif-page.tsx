@@ -1,60 +1,59 @@
 "use client";
 
-import type { DeviceModel } from "@entities/device/model/types";
-import { ActiveTarrifCard } from "@entities/tarrif";
 import { springTransition, TITLE_WORD_DELAY } from "@shared/config/motion";
+import { assetPath } from "@shared/config/base-path";
 import { useScreenReady } from "@shared/hooks/use-screen-ready";
+import { useAuth } from "@shared/providers/auth-provider";
 import { AnimatedTitle } from "@shared/ui/animated-title";
 import { Button } from "@shared/ui/button";
 import { motion } from "motion/react";
-import { useCallback, useRef, useState } from "react";
-import { createRandomDevice } from "../model/create-random-device";
-import type { MyTarrifModel } from "../model/mock";
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
+import {
+  buildRenewPaymentPath,
+  hasReadyShareLink,
+  isKeyExpired,
+  type VpnKeyItem,
+} from "../model/from-user";
 import { AddDeviceSheet } from "./add-device-sheet";
-import { DeleteDeviceDialog } from "./delete-device-dialog";
-import { DevicesSection } from "./devices-section";
+import { AddTariffButton } from "./add-tariff-button";
+import { VpnKeyCard } from "./vpn-key-card";
 
 type MyTarrifPageProps = {
-  data: MyTarrifModel;
+  keys: VpnKeyItem[];
+  loading?: boolean;
 };
 
-const CARD_DELAY = TITLE_WORD_DELAY * 2 + 0.12;
+const LIST_BASE_DELAY = TITLE_WORD_DELAY * 2 + 0.12;
 const ACTION_DELAY = TITLE_WORD_DELAY * 2 + 0.28;
 const TITLE_TAP_RESET_MS = 2000;
-const TITLE_TAP_TARGET = 5;
+const LOGOUT_TAP_TARGET = 10;
 
-export function MyTarrifPage({ data }: MyTarrifPageProps) {
+export function MyTarrifPage({ keys, loading = false }: MyTarrifPageProps) {
+  const { logout } = useAuth();
+  const router = useRouter();
   const isReady = useScreenReady();
-  const [devices, setDevices] = useState<DeviceModel[]>(data.devices);
-  const [isAddSheetOpen, setIsAddSheetOpen] = useState(false);
-  const [deviceToDelete, setDeviceToDelete] = useState<DeviceModel | null>(
-    null,
-  );
+  const [activeKey, setActiveKey] = useState<VpnKeyItem | null>(null);
   const titleTapCountRef = useRef(0);
   const titleTapTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined,
   );
 
-  const handleCopy = useCallback(async (value: string) => {
-    try {
-      await navigator.clipboard.writeText(value);
-    } catch {
-      // Clipboard may be unavailable outside secure context.
-    }
-  }, []);
-
-  const handleCopyKey = () => {
-    void handleCopy(data.access.key);
-    setIsAddSheetOpen(true);
-  };
+  const isSingleKey = keys.length === 1;
+  const singleKey = isSingleKey ? keys[0] : null;
+  const singleExpired = singleKey ? isKeyExpired(singleKey) : false;
+  const shareLink =
+    singleKey && hasReadyShareLink(singleKey.access)
+      ? singleKey.access.link
+      : "";
 
   const handleTitleTap = () => {
     clearTimeout(titleTapTimeoutRef.current);
     titleTapCountRef.current += 1;
 
-    if (titleTapCountRef.current >= TITLE_TAP_TARGET) {
-      setDevices((current) => [...current, createRandomDevice()]);
+    if (titleTapCountRef.current >= LOGOUT_TAP_TARGET) {
       titleTapCountRef.current = 0;
+      logout();
       return;
     }
 
@@ -63,26 +62,84 @@ export function MyTarrifPage({ data }: MyTarrifPageProps) {
     }, TITLE_TAP_RESET_MS);
   };
 
-  const handleConfirmDelete = () => {
-    if (!deviceToDelete) {
+  const handlePrimaryAction = () => {
+    if (!singleKey) {
       return;
     }
+    if (singleExpired && singleKey.renewTariffId) {
+      router.push(
+        assetPath(
+          buildRenewPaymentPath(singleKey.renewTariffId, singleKey.user.id),
+        ),
+      );
+      return;
+    }
+    setActiveKey(singleKey);
+  };
 
-    setDevices((current) =>
-      current.filter((device) => device.id !== deviceToDelete.id),
-    );
-    setDeviceToDelete(null);
+  const primaryLabel = () => {
+    if (singleExpired) {
+      return "Продлить доступ";
+    }
+    if (shareLink) {
+      return "Скопировать ключ";
+    }
+    return "Ключ готовится…";
   };
 
   return (
     <div className="flex h-screen flex-col overflow-hidden">
       <header className="shrink-0 px-4 pt-6 pb-4">
         <div className="cursor-default" onClick={handleTitleTap}>
-          <AnimatedTitle text="Ваш тариф" />
+          <AnimatedTitle
+            text={isSingleKey ? "Ваш тариф" : "Ваши тарифы"}
+          />
         </div>
       </header>
 
       <main className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-4 pb-4">
+        {loading && (
+          <p className="px-1 text-sm text-white/60">Загружаем ключи…</p>
+        )}
+        {keys.map((key, index) => (
+          <motion.div
+            key={key.user.id}
+            initial={{ opacity: 0, y: 28, scale: 0.96 }}
+            animate={
+              isReady
+                ? { opacity: 1, y: 0, scale: 1 }
+                : { opacity: 0, y: 28, scale: 0.96 }
+            }
+            transition={springTransition(LIST_BASE_DELAY + index * 0.08)}
+          >
+            <VpnKeyCard
+              title={key.title}
+              subtitle={key.subtitle}
+              description={key.description}
+              expiryBadge={key.expiryBadge}
+              expired={isKeyExpired(key)}
+              onClick={
+                isSingleKey
+                  ? undefined
+                  : () => {
+                      if (isKeyExpired(key) && key.renewTariffId) {
+                        router.push(
+                          assetPath(
+                            buildRenewPaymentPath(
+                              key.renewTariffId,
+                              key.user.id,
+                            ),
+                          ),
+                        );
+                        return;
+                      }
+                      setActiveKey(key);
+                    }
+              }
+            />
+          </motion.div>
+        ))}
+
         <motion.div
           initial={{ opacity: 0, y: 28, scale: 0.96 }}
           animate={
@@ -90,49 +147,39 @@ export function MyTarrifPage({ data }: MyTarrifPageProps) {
               ? { opacity: 1, y: 0, scale: 1 }
               : { opacity: 0, y: 28, scale: 0.96 }
           }
-          transition={springTransition(CARD_DELAY)}
+          transition={springTransition(LIST_BASE_DELAY + keys.length * 0.08)}
         >
-          <ActiveTarrifCard tarrif={data.tarrif} />
+          <AddTariffButton />
         </motion.div>
-
-        <DevicesSection
-          devices={devices}
-          onDeleteDevice={setDeviceToDelete}
-          delay={CARD_DELAY + 0.08}
-        />
       </main>
 
-      <motion.footer
-        className="shrink-0 px-4 pt-4 pb-[32px] shadow-[0px_0px_2px_rgba(0,0,0,0.04),0px_-4px_4px_rgba(0,0,0,0.06)]"
-        initial={{ y: 120, opacity: 0 }}
-        animate={isReady ? { y: 0, opacity: 1 } : { y: 120, opacity: 0 }}
-        transition={{
-          type: "spring",
-          stiffness: 320,
-          damping: 28,
-          mass: 0.85,
-          delay: ACTION_DELAY,
-        }}
-      >
-        <Button
-          className="h-[50px] w-full rounded-[16px] text-xl font-medium"
-          onClick={handleCopyKey}
+      {isSingleKey && (
+        <motion.footer
+          className="shrink-0 px-4 pt-4 pb-[32px] shadow-[0px_0px_2px_rgba(0,0,0,0.04),0px_-4px_4px_rgba(0,0,0,0.06)]"
+          initial={{ y: 120, opacity: 0 }}
+          animate={isReady ? { y: 0, opacity: 1 } : { y: 120, opacity: 0 }}
+          transition={{
+            type: "spring",
+            stiffness: 320,
+            damping: 28,
+            mass: 0.85,
+            delay: ACTION_DELAY,
+          }}
         >
-          Скопировать ключ
-        </Button>
-      </motion.footer>
+          <Button
+            className="h-[50px] w-full rounded-[16px] text-xl font-medium"
+            onClick={handlePrimaryAction}
+            disabled={!singleExpired && !shareLink}
+          >
+            {primaryLabel()}
+          </Button>
+        </motion.footer>
+      )}
 
       <AddDeviceSheet
-        open={isAddSheetOpen}
-        access={data.access}
-        onClose={() => setIsAddSheetOpen(false)}
-        onCopy={handleCopy}
-      />
-
-      <DeleteDeviceDialog
-        open={Boolean(deviceToDelete)}
-        onConfirm={handleConfirmDelete}
-        onCancel={() => setDeviceToDelete(null)}
+        open={Boolean(activeKey)}
+        access={activeKey?.access ?? { configuration: "", key: "", link: "" }}
+        onClose={() => setActiveKey(null)}
       />
     </div>
   );

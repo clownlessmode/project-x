@@ -1,6 +1,4 @@
-import { getTarrifById } from "@entities/tarrif/model/get-tarrif-by-id";
-import { PaymentTypeScreen } from "@screens/payment-type";
-import { TARRIFS_MOCK } from "@screens/tarrifs/model/mock";
+import { PaymentTypeRouteClient } from "@screens/payment-type/ui/payment-type-route-client";
 import { getTarrifRouteParams } from "@shared/lib/static-params";
 import { notFound } from "next/navigation";
 
@@ -8,7 +6,7 @@ type PageProps = {
   params: Promise<{ tarrif: string }>;
 };
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   return getTarrifRouteParams();
 }
 
@@ -20,11 +18,5 @@ export default async function Page({ params }: PageProps) {
     notFound();
   }
 
-  const tarrif = getTarrifById(tarrifId, TARRIFS_MOCK);
-
-  if (!tarrif) {
-    notFound();
-  }
-
-  return <PaymentTypeScreen tarrif={tarrif} />;
+  return <PaymentTypeRouteClient tarrifId={tarrifId} />;
 }

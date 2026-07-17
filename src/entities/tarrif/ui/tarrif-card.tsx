@@ -16,7 +16,6 @@ export const TarrifCard = ({
   title,
   subtitle,
   period,
-  devices_count,
   prices,
   ribbon,
   link,

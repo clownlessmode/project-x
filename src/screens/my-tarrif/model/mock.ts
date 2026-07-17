@@ -33,7 +33,4 @@ export function buildMyTarrifData(tarrif: TarrifModel): MyTarrifModel {
   };
 }
 
-export const MY_TARRIF_MOCK: MyTarrifModel = buildMyTarrifData({
-  ...activeTarrif,
-  devices_count: 5,
-});
+export const MY_TARRIF_MOCK: MyTarrifModel = buildMyTarrifData(activeTarrif);
